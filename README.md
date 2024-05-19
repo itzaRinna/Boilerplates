@@ -9,7 +9,7 @@ Supports
 
 * [X] [Assembly](ASM)
 * [X] [C](C)
-* [ ] [C#]
+* [ ] [C#](C#)
 * [X] [C++](cpp)
 * [X] [Crystal](crystal)
 * [X] [Docker](docker)
