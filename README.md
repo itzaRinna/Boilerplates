@@ -7,8 +7,8 @@ languages and frameworks.
 Supports
 ========
 
-* [X] [Assembly](asm)
-* [X] [C](c)
+* [X] [Assembly](ASM)
+* [X] [C](C)
   * [ ] Benchmark
 * [ ] C# / Mono
   * [ ] Benchmark
