@@ -1,16 +1,47 @@
-CXX?=c++
-CFLAGS?=-Wall
+#
+# [Application Name]
+# 
+# Author  : name <email>
+# Readme  : README.md
+# Website : http://website.com
+# TODO    : A todo note example
+# Fix     : A fix note example
+#
 
-test: main.o test.o
-	$(CXX) main.o test.o -o test
+CC := g++ # Main compiler
+SRCDIR := src # Source Directory
+BUILDDIR := build # Build Directory
+TESTDIR := test # Tests Directory
+TESTAPP := example # Test name
+BINDIR := bin # App, tests, spikes executables
+TARGET := bin/applicationname # Main executable of the project
 
-test.o: test.cpp test.h
-	$(CXX) $(CFLAGS) -c test.cpp -o test.o
+SRCEXT := cpp # Extension
+SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT)) # Source files (Dynamic)
+OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o)) # Object files (Dynamic)
+CFLAGS := -g -Wall -W -Werror # Compile flags
+LIB := # Libraries flags
+INC := -I include # Ensures all headers in the include folder
 
-main.o: main.cpp test.h
-	$(CXX) $(CFLAGS) -c main.cpp -o main.o
+$(TARGET): $(OBJECTS)
+	@echo " Linking..." # Description
+	@echo " $(CC) $^ -o $(TARGET) $(LIB)" # Command
+	$(CC) $^ -o $(TARGET) $(CFLAGS) $(LIB)
+
+$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
+	@mkdir -p $(BUILDDIR)
+	@echo "$(CC) $(CFLAGS) $(INC) -c -o $@ $<";
+	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
 clean:
-	rm -rf test.o main.o test
+	@echo " Cleaning...";
+	@echo " $(RM) -r $(BUILDDIR) $(TARGET)";
+	$(RM) -r $(BUILDDIR) $(TARGET)
+
+tester:
+	$(CC) $(CFLAGS) $(TESTDIR)/$(TESTAPP).$(SRCEXT) $(INC) $(LIB) -o $(BINDIR)/$(TESTAPP)
+
+example:
+	$(CC) $(CFLAGS) $(SPIKEDIR)/example.cpp $(INC) $(LIB) -o $(BINDIR)/example
 
 .PHONY: clean
